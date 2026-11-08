@@ -1,0 +1,7 @@
+// The power-profile-auto service uses DynamicUser=yes, so its name exists only while it runs.
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.freedesktop.UPower.PowerProfiles.switch-profile" &&
+        subject.user == "power-profile-auto") {
+        return polkit.Result.YES;
+    }
+});

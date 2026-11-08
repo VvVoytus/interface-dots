@@ -1,0 +1,78 @@
+#!/bin/sh
+# Choose the power profile from the charger and the battery level.
+#
+#   any supply online      -> balanced
+#   battery capacity > 30  -> balanced
+#   battery capacity <= 30 -> power-saver
+#
+
+set -eu
+
+# check -> run by udev, saves and compares state to decide if should run systemd service
+if [ "${1:-}" = check ]; then
+	sig=""
+	for dir in /sys/class/power_supply/*; do
+		[ -d "$dir" ] || continue
+		name=${dir##*/}
+		type=$(cat "$dir/type")
+		case $type in
+		Mains|USB)
+			sig="${sig}${name} online=$(cat "$dir/online" 2>/dev/null || printf x)
+"
+			;;
+		Battery)
+			sig="${sig}${name} cap=$(cat "$dir/capacity" 2>/dev/null || printf x)"
+			sig="${sig} status=$(cat "$dir/status" 2>/dev/null || printf x)
+"
+			;;
+		esac
+	done
+	state=/run/power-profile-auto.state
+	if [ -r "$state" ] && printf '%s' "$sig" | cmp -s - "$state"; then
+		exit 0
+	fi
+	printf '%s' "$sig" > "$state"
+	systemctl start --no-block power-profile-auto.service
+	exit 0
+fi
+
+
+if [ "${1:-}" = update ]; then
+	threshold=30
+
+	on_ac=0
+	for online in /sys/class/power_supply/*/online; do
+		[ -r "$online" ] || continue
+		if [ "$(cat "$online")" = 1 ]; then
+			on_ac=1
+			break
+		fi
+	done
+
+	if [ "$on_ac" = 1 ]; then
+		want=balanced
+	else
+		cap=
+		for file in /sys/class/power_supply/BAT*/capacity; do
+			[ -r "$file" ] || continue
+			value=$(cat "$file")
+			if [ -z "$cap" ] || [ "$value" -lt "$cap" ]; then
+				cap=$value
+			fi
+		done
+		if [ -n "$cap" ] && [ "$cap" -le "$threshold" ]; then
+			want=power-saver
+		else
+			want=balanced
+		fi
+	fi
+
+	current=$(powerprofilesctl get 2>/dev/null || true)
+	if [ "$current" = "$want" ]; then
+		exit 0
+	fi
+
+	powerprofilesctl set "$want"
+	logger -t power-profile-auto "set ${want} (was ${current:-unknown})"
+	exit 0
+fi

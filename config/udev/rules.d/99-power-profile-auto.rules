@@ -1,0 +1,6 @@
+# An earlier rule stored SYSTEMD_WANTS on the device. Udev keeps that property
+# across later events, so the service started on every battery tick.
+ACTION=="change", SUBSYSTEM=="power_supply", ENV{SYSTEMD_WANTS}=""
+
+# check starts the service only when mains, USB online, capacity, or battery status changed.
+ACTION=="change", SUBSYSTEM=="power_supply", RUN+="/usr/local/sbin/power-profile-auto check"
