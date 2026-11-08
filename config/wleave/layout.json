@@ -1,0 +1,51 @@
+{
+    "css": "/home/vvvoytus/etc/wleave/style.css",
+    "delay-command-ms": 100,
+    "close-on-lost-focus": true,
+    "show-keybinds": true,
+    "no-version-info": true,
+    "buttons": [
+        {
+            "label": "lock",
+            "action": "loginctl lock-session",
+            "text": "Lock",
+            "keybind": "l",
+            "icon": "/usr/share/wleave/icons/lock.svg"
+        },
+        {
+            "label": "suspend",
+            "action": "systemctl suspend",
+            "text": "Suspend",
+            "keybind": "u",
+            "icon": "/usr/share/wleave/icons/suspend.svg"
+        },
+        {
+            "label": "hibernate",
+            "action": "systemctl hibernate",
+            "text": "Hibernate",
+            "keybind": "h",
+            "icon": "/usr/share/wleave/icons/hibernate.svg"
+        },
+        {
+            "label": "logout",
+            "action": "hyprshutdown --post-cmd 'loginctl terminate-session \"$XDG_SESSION_ID\"'",
+            "text": "Logout",
+            "keybind": "e",
+            "icon": "/usr/share/wleave/icons/logout.svg"
+        },
+        {
+            "label": "reboot",
+            "action": "hyprshutdown --post-cmd 'systemctl reboot'",
+            "text": "Reboot",
+            "keybind": "r",
+            "icon": "/usr/share/wleave/icons/reboot.svg"
+        },
+        {
+            "label": "poweroff",
+            "action": "hyprshutdown --post-cmd 'systemctl poweroff'",
+            "text": "Poweroff",
+            "keybind": "p",
+            "icon": "/usr/share/wleave/icons/shutdown.svg"
+        }
+    ]
+}
