@@ -18,3 +18,10 @@ map("n", "<C-k>", "<C-w><C-k>", { desc = "move focus to the upper window" })
 -- map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Close the current buffer" })
 -- map("n", "<leader>bl", "<cmd>e#<cr>", { desc = "Move to the last visited buffer" })
 
+-- which-key groups
+local wk = require("which-key")
+
+wk.add({
+  { "<leader>G", group = "[G]it" },
+  { "<leader>Gs", group = "[s]tage" },
+})
