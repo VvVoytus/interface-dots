@@ -1,0 +1,16 @@
+mouse-scroll-multiplier = 0.5
+
+window-decoration = true
+window-padding-x = 8
+window-padding-y = 8
+window-show-tab-bar = always
+
+theme = Catppuccin Mocha
+font-family = "BerkeleyMono Nerd Font Mono"
+
+link-url = true
+shell-integration = zsh
+
+gtk-custom-css = styles.css
+
+keybind = ctrl+enter=unbind
