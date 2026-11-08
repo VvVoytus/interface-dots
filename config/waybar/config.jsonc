@@ -1,0 +1,296 @@
+// -*- mode: jsonc -*-
+{
+    "layer": "top", // Waybar at top layer
+    // "position": "bottom", // Waybar position (top|bottom|left|right)
+    "height": 20, // Waybar height (to be removed for auto height)
+    // "width": 1280, // Waybar width
+    "spacing": 4, // Gaps between modules (4px)
+    "margin": "4 8 0 8",
+    // Choose the order of the modules
+    "modules-left": [
+        "hyprland/workspaces"
+        // "mpd"
+    ],
+    "modules-center": [
+        "clock"
+    ],
+    "modules-right": [
+        "keyboard-state",
+        "idle_inhibitor",
+        "wireplumber#sink",
+        "wireplumber#source",
+        "bluetooth",
+        "network",
+        // "custom/vpn",
+        "group/hardware",
+        "group/bat",
+        "custom/shutdown"
+    ],
+    // Modules configuration
+    "hyprland/workspaces": {
+        "all-outputs": true,
+        "show-special": true,
+        "format": "{windows}",
+        "format-window-separator": " ",
+        "window-rewrite-default": "",
+        "window-rewrite": {
+            "class<com.mitchellh.ghostty>": "",
+            "class<zen>": "󰖟",
+            "class<cursor>": ""
+        }
+    },
+    "mpd": {
+        "format": " {artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) {stateIcon}",
+        "format-stopped": "󰝛 Stopped",
+        "unknown-tag": "N/A",
+        "interval": 5,
+        "consume-icons": {
+            "on": ""
+        },
+        "random-icons": {
+            "on": ""
+        },
+        "repeat-icons": {
+            "on": ""
+        },
+        "single-icons": {
+            "on": "1"
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": " {artist} - {album} - {title} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}",
+        "on-click": "ymuse"
+    },
+    "clock": {
+        "timezone": "Europe/Warsaw",
+        "format": "{:%a, %d %b %Y %H:%M (%Z)}",
+        "tooltip-format": "<tt><big>{calendar}</big></tt>",
+        "calendar": {
+            "iso8601": true,
+            "on-scroll": 1,
+            "on-click-right": "mode",
+            "mode-mon-col": 3,
+            "weeks-pos": "left",
+            "format": {
+                "months": "<span color='#f5c2e7'><b>{}</b></span>",
+                "days": "<span color='#cdd6f4'><b>{}</b></span>",
+                "weeks": "<span color='#f5e0dc'><b>W{}</b></span>",
+                "weekdays": "<span color='#f5e0dc'><b>{}</b></span>",
+                "today": "<span color='#f38ba8'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-click": "shift_reset",
+            "on-click-right": "mode",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+    "keyboard-state": {
+        "capslock": true,
+        "format": "{icon}",
+        "format-icons": {
+            "locked": "󰘲",
+            "unlocked": ""
+        }
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "tooltip-format-activated": "No idle",
+        "tooltip-format-deactivated": "",
+        "format-icons": {
+            "activated": "󰌾",
+            "deactivated": "󰌿"
+        }
+    },
+    "wireplumber#sink": {
+        "scroll-step": 1, // %, can be a float
+        "reverse-scrolling": true,
+        "format": "{icon}",
+        "format-muted": "󰝟",
+        "format-icons": [
+            "󰕿",
+            "󰖀",
+            "󰕾"
+        ],
+        "tooltip": true,
+        "tooltip-format": "󰓃 {node_name} ({volume}%)",
+        "on-click": "pwvucontrol"
+    },
+    "wireplumber#source": {
+        "node-type": "Audio/Source",
+        "scroll-step": 1, // %, can be a float
+        "reverse-scrolling": true,
+        "format": "󰍬",
+        "format-muted": "󰍭",
+        "tooltip": true,
+        "tooltip-format": "󰍬 {node_name} ({volume}%)",
+        "on-click": "pwvucontrol"
+    },
+    "bluetooth": {
+        "format": "",
+        "format-disabled": "󰂲",
+        "format-off": "󰂲",
+        "format-on": "",
+        "format-connected": "󰂱",
+        "tooltip-format": " {controller_alias} via {controller_address}",
+        "tooltip-format-connected": " {controller_alias} via {controller_address}\n\n{num_connections} connected devices:\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "󰂱 {device_alias}",
+        "tooltip-format-enumerate-connected-battery": "󰂱 {device_alias} ({device_battery_percentage}%)",
+        "on-click": "blueman-manager"
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format": "",
+        "format-wifi": "󰖩",
+        "format-ethernet": "",
+        "format-linked": "󰌘",
+        "format-disconnected": "󰲛",
+        "tooltip-format-wifi": "󰛳 {ifname} via {gwaddr}\n󰖩 {essid} ({signalStrength}%)\n {bandwidthUpBits}  {bandwidthDownBits}",
+        "tooltip-format-ethernet": "󰛳 {ifname} via {gwaddr}\n {bandwidthUpBits}  {bandwidthDownBits}",
+        "tooltip-format-disconnected": "⚠ Disconnected",
+        "on-click": "iwgtk"
+    },
+    "custom/vpn": {
+        "exec": "if expressvpnctl status | grep -q 'Connected to' ; then echo '󱔸'; else echo '󱔑'; fi",
+        "interval": 1,
+        "on-click": "/opt/expressvpn/bin/expressvpn-client",
+        "tooltip": false
+    },
+    "group/hardware": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/stats",
+            "cpu",
+            "memory",
+            "temperature",
+            "disk",
+            "backlight",
+            "privacy"
+        ]
+    },
+    "custom/stats": {
+        "format": "󰄨 Stats",
+        "tooltip": false,
+        "on-click": "missioncenter"
+    },
+    "cpu": {
+        "format": " {usage}%",
+        "tooltip-format": "Usage: {usage}% Load: {load}\nFrequency: {avg_frequency}GHz ({min_frequency}-{max_frequency}GHz)"
+    },
+    "memory": {
+        "format": " {percentage}%",
+        "tooltip-format": "Usage: {used:0.1f}GiB out of {total:0.1f}GiB ({percentage}%)\nSwap: {swapUsed:0.1f}GiB out of {swapTotal:0.1f}GiB ({swapPercentage}%)"
+    },
+    "temperature": {
+        "hwmon-name": "coretemp",
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "critical-threshold": 100,
+        "tooltip": false,
+        "format": "{icon} {temperatureC}°C",
+        "format-critical": " {temperatureC}°C",
+        "format-icons": [
+            "",
+            "",
+            ""
+        ]
+    },
+    "disk": {
+        "format": " {percentage_used}%",
+        "tooltip-format": "{used} out of {total} on {path}",
+        "path": "/home"
+    },
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "tooltip": false,
+        "reverse-scrolling": true,
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "privacy": {
+        "icon-spacing": 4,
+        "icon-size": 12,
+        "transition-duration": 250,
+        "modules": [
+            {
+                "type": "screenshare",
+                "tooltip": true
+            },
+            {
+                "type": "audio-out",
+                "tooltip": true
+            },
+            {
+                "type": "audio-in",
+                "tooltip": true
+            },
+            {
+                "type": "location",
+                "icon-name": "location-services-active-symbolic"
+            }
+        ],
+        "ignore-monitor": true
+    },
+    "group/bat": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "battery",
+            "power-profiles-daemon"
+        ]
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-full": "{icon} {capacity}%",
+        "format-charging": "󱐋 {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
+    },
+    "custom/shutdown": {
+        "format": "⏻ ",
+        "tooltip": true,
+        "tooltip-format": "Open the shutdown menu",
+        "on-click": "wleave"
+    }
+}

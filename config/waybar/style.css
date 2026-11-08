@@ -1,0 +1,232 @@
+@import "mocha.css";
+
+* {
+  /* `otf-font-awesome` is required to be installed for icons */
+  font-family: "BerkeleyMono Nerd Font Mono", monospace;
+  font-size: 0.95rem;
+}
+
+window#waybar {
+  background-color: transparent;
+  color: @text;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+button {
+  background-color: @mantle;
+  /* Use box-shadow instead of border so the text isn't offset */
+  box-shadow: inset 0 -3px transparent;
+  /* Avoid rounded borders under each button name */
+  border: none;
+  border-radius: 0;
+}
+
+tooltip {
+  background-color: @base;
+  color: @text;
+  border-radius: 0.5rem;
+}
+
+tooltip label {
+  padding: 0 0.5rem;
+}
+
+/* left module */
+
+#workspaces {
+  border: 1px solid @surface2;
+  border-radius: 1rem;
+  margin-right: 0.5rem;
+}
+
+#workspaces button {
+  padding: 0 0.5rem;
+  color: @text;
+}
+
+#workspaces button:hover {
+  color: @rosewater;
+}
+
+#workspaces button.active {
+  background-color: @rosewater;
+  color: @base;
+}
+
+#workspaces button:first-child {
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  padding-right: 0.25rem;
+}
+
+#workspaces button:last-child {
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding-left: 0.25rem;
+}
+
+#workspaces button.urgent {
+  color: @red;
+}
+
+#mpd {
+  background-color: @mantle;
+  border: 1px solid @surface2;
+  border-radius: 1rem;
+  color: @text;
+  padding: 0 0.75rem;
+}
+
+#mpd:hover {
+  color: @rosewater;
+}
+
+/* center module */
+
+#window {
+  margin: 0 4px;
+}
+
+/* right module */
+
+.modules-right {
+  background-color: @mantle;
+  border: 1px solid @surface2;
+  border-radius: 1rem;
+}
+
+#keyboard-state,
+#idle_inhibitor,
+#wireplumber,
+#bluetooth,
+#network,
+#custom-stats,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#battery,
+#power-profiles-daemon,
+#clock,
+#custom-vpn,
+#custom-shutdown,
+#privacy-item {
+  background-color: transparent;
+  padding: 0 0.5rem;
+  color: @text;
+}
+
+#wireplumber.muted,
+#bluetooth.disabled,
+#bluetooth.off,
+#network.disconnected,
+#temperature.critical {
+  color: @red;
+}
+
+#keyboard-state {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+#keyboard-state > label {
+  margin-left: 0.25rem;
+}
+
+#keyboard-state > label.locked {
+  padding: 0 0 0 0.25rem;
+  color: @red;
+}
+
+#keyboard-state > label.locked:first-child {
+  margin-left: 0.5rem;
+  margin-right: 0;
+}
+
+#idle_inhibitor {
+  margin-left: 0;
+  padding-left: 0.25rem;
+  background-color: transparent;
+}
+
+#wireplumber {
+  padding-left: 0;
+}
+
+#bluetooth {
+  padding: 0 0.25rem 0 0;
+}
+
+#network {
+  padding: 0 0.25rem;
+}
+
+#privacy-item:first-child {
+  padding-left: 0.25rem;
+}
+
+#privacy-item:last-child {
+  padding-right: 0.25rem;
+}
+
+@keyframes blink {
+  to {
+    color: @red;
+  }
+}
+
+#battery {
+  padding: 0 0.25rem;
+}
+
+/* Using steps() instead of linear as a timing function to limit cpu usage */
+#battery.critical:not(.charging),
+#temperature.critical {
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: steps(12);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#power-profiles-daemon {
+  padding-right: 1rem;
+}
+
+#power-profiles-daemon.performance {
+  color: @red;
+}
+
+#power-profiles-daemon.balanced {
+  color: @sky;
+}
+
+#power-profiles-daemon.power-saver {
+  color: @green;
+}
+
+#clock {
+  padding: 0 0.25rem;
+}
+
+#power-menu {
+  margin-right: 0.5rem;
+}
+
+#custom-shutdown {
+  color: @red;
+  padding-right: 0;
+}
+
+#idle_inhibitor:hover,
+#wireplumber:hover,
+#bluetooth:hover,
+#network:hover,
+#custom-vpn:hover,
+#custom-stats:hover,
+#privacy-item:hover {
+  color: @rosewater;
+}
