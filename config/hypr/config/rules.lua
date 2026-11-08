@@ -59,14 +59,6 @@ hl.window_rule({
 	tile = true,
 })
 
-hl.window_rule({
-	name = "bitwarden-float",
-	match = {
-		title = "^Extension: (Bitwarden Password Manager) - Bitwarden"
-	},
-
-	float = true,
-})
 --
 -- hl.workspace_rule({
 -- 	workspace = "1",
