@@ -1,0 +1,20 @@
+#compdef origin
+
+_origin_yargs_completions()
+{
+  local args=($=words) # ""
+  local completions
+  local si=$IFS
+  IFS=$'\n' 
+  if (( ${#args} > 1 )); then
+    completions=($(origin --get-yargs-completions "${args[2]}"))
+  else
+    completions=($(origin --get-yargs-completions))
+  fi
+  IFS=$si
+  _describe 'commands' completions
+}
+
+_origin_yargs_completions "$@"
+
+# compdef _origin_yargs_completions origin
